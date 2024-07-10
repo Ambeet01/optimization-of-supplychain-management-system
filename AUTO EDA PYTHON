@@ -1,0 +1,36 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+dataset = pd.read_csv("pallet_Masked_fulldata.csv")
+dataset.head()
+dataset.columns
+dataset.isnull()
+dataset.isna().sum()
+dataset.duplicated().sum()
+plt.figure(figsize=(8, 6))
+plt.title('Distribution of Regions')
+plt.xlabel('Region')
+plt.ylabel('Count')
+plt.xticks(rotation=45)
+plt.tight_layout()
+region_counts = dataset['Region'].value_counts()
+plt.pie(region_counts, labels=region_counts.index, autopct='%1.1f%%', startangle=140)
+plt.title('Distribution of Regions (Pie Chart)')
+plt.axis('equal')
+plt.figure(figsize=(10, 6))
+city_qty = dataset.groupby('City')['QTY'].sum()
+plt.title('Quantity of Products by City')
+date_qty = dataset.groupby('Date')['QTY'].sum()
+plt.figure(figsize=(10, 6))
+date_qty.plot(kind='line', color='green', marker='o')
+plt.title('Quantity of Products Over Time')
+grouped_data = dataset.groupby(['City', 'Region'])['QTY'].sum().reset_index()
+bubble_size = grouped_data['QTY'] * 10 
+plt.figure(figsize=(12, 8))
+plt.scatter(grouped_data['City'], grouped_data['Region'], s=bubble_size, alpha=0.5, c='green')
+import pandas as pd
+import matplotlib.pyplot as plt
+dataset = pd.DataFrame(data)
+plt.hist(dataset['qty'], bins=10, edgecolor='black')
+product_qty = dataset.groupby('productcode')['qty'].sum().reset_index()
+plt.bar(product_qty['productcode'], product_qty['qty'])
