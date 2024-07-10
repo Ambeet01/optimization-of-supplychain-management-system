@@ -1,0 +1,72 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+dataset = pd.read_csv("pallet_Masked_fulldata.csv")
+dataset.head()
+dataset.columns
+dataset.isnull().sum()
+dataset.isnull()
+dataset.isna().sum()
+dataset.duplicated().sum()
+
+plt.figure(figsize=(8, 6))
+plt.title('Distrubtion of Regions')
+plt.xlabel('Region')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+plt.figure(figsize=(8, 8))
+region_counts = dataset['Region'].value_counts()
+plt.pie(region_counts, labels=region_counts.index, autopct='%1.1f%%', startangle=140)
+plt.title('Distribution of Regions (Pie Chart)')
+plt.axis('equal')
+plt.figure(figsize=(10, 6))
+plt.figure(figsize=(10, 6))
+city_qty = dataset.groupby('City')['QTY'].sum()
+plt.title('Quantity of Products by City')
+plt.xlabel('City')
+plt.ylabel('Total Quantity (QTY)')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+date_qty = dataset.groupby('Date')['QTY'].sum()
+plt.figure(figsize=(10, 6))
+date_qty.plot(kind='line', color='green', marker='o')
+plt.title('Quantity of Products Over Time')
+plt.xlabel('Date')
+grouped_data = dataset.groupby(['City', 'Region'])['QTY'].sum().reset_index()
+bubble_size = grouped_data['QTY'] * 10 
+plt.figure(figsize=(12, 8))
+plt.scatter(grouped_data['City'], grouped_data['Region'], s=bubble_size, alpha=0.5, c='green')
+plt.title('Bubble Chart - Quantity by City and Region')
+plt.xlabel('City')
+plt.ylabel('Region')
+plt.show()
+region_qty = dataset.groupby('Region')['QTY'].sum().reset_index()
+import pandas as pd
+import matplotlib.pyplot as plt
+
+data = {
+    'date': ['2023-01-01', '2023-01-02', '2023-01-03', '2023-01-04', '2023-01-05'],
+    'custname': ['Customer A', 'Customer B', 'Customer C', 'Customer A', 'Customer B'],
+    'city': ['City X', 'City Y', 'City Z', 'City X', 'City Y'],
+    'region': ['Region 1', 'Region 2', 'Region 1', 'Region 2', 'Region 1'],
+    'state': ['State A', 'State B', 'State C', 'State A', 'State B'],
+    'productcode': ['P1', 'P2', 'P1', 'P2', 'P1'],
+    'transaction type': ['Type 1', 'Type 2', 'Type 1', 'Type 2', 'Type 1'],
+    'wh name': ['WH1', 'WH2', 'WH1', 'WH2', 'WH1'],
+    'qty': [5, 10, 15, 20, 25]
+}
+
+
+df = pd.DataFrame(data)
+
+product_qty = df.groupby('productcode')['qty'].sum().reset_index()
+
+
+plt.bar(product_qty['productcode'], product_qty['qty'])
+plt.xlabel('Product Code')
+plt.ylabel('Total Quantity')
+plt.title('Total Quantity per Product Code')
+plt.show()
+
